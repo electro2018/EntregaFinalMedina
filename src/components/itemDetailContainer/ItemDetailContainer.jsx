@@ -1,30 +1,27 @@
-//import React from 'react'
+
 import React, { useEffect, useState } from 'react'
-import {products} from '../../productsMock'
-import {useParams} from "react-router-dom"
+
+import { products } from '../../productsMock'
+
+import { useParams } from "react-router-dom"
+import ItemDetail from '../itemDetail/ItemDetail'
 
 const ItemDetailContainer = () => {
 
-     const[product,setProduct]= useState({})
-    
-     const{id}= useParams()
-     console.log(id)
+  const [product, setProduct] = useState({})
 
-    useEffect( ()=>{
+  const { id } = useParams()
 
-    const productSelected = products.find( producto => producto.id === +id )
+  useEffect( ()=>{
+
+    const productSelected = products.find( producto => producto.id === parseInt(id) )
     setProduct(productSelected)
 
-  },[id])
+  }, [id])
 
-
-console.log(product)
-
-return(
-  <div>    
-    <h2>{product.name}</h2>
-    <h2>{product.price}</h2>
-    <h2>{product.description}</h2>
+  return (
+    <div>
+       <ItemDetail product={ product } />
     </div>
   )
 }

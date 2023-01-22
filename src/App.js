@@ -1,34 +1,48 @@
+
 import ItemDetailContainer from "./components/itemDetailContainer/ItemDetailContainer";
 import ItemListContainer from "./components/itemListContainer/ItemListContainer";
 import Navbar from "./components/navBar/NavBar"
+
 import { BrowserRouter, Routes, Route } from "react-router-dom"
+import Form from "./components/form/Form";
+import Cart from "./components/cart/Cart";
 
-function App() {
+import CartContextProvider from "./context/CartContext";
 
-  return (
-    <BrowserRouter>
-        <Navbar />
 
-    <Routes>
+  function App() {
+
+    // CREAR EL ENRUTADO
   
-    <Route path="/" element={ <ItemListContainer /> } /> 
-    <Route path="/category/:categoryName" element={<ItemListContainer />} /> 
-    <Route path="/category" element={<ItemListContainer />} /> 
-    <Route path="/itemDetail/:id" element={ <ItemDetailContainer /> } />
-    <Route path="/cart" element={<h3>el carrito</h3>} />
-    <Route path="*" element={ <h2>Lo siento esta url no existe</h2> } />
-      </Routes>
-   </BrowserRouter>
-  );
- }
-
-export default App;
-/*   //<Route path="/category/:categoryName" element={<ItemListContainer />} />
-      <Route path="/itemDetail/:id" element={ <ItemDetailContainer /> } />
-      <Route path="/cart" element={ <h3>Aca se muestra el carrito</h3> } />
-      <Route path="*" element={ <h2>Lo siento esta url no existe</h2> } /><div>
-      <Navbar />
-       <Route path="/category/categoryName" element={<ItemListContainer />} /> 
-      <ItemListContainer />
-      <ItemDetailContainer />
-    </div>*/
+    return (
+     
+      <BrowserRouter>
+        <CartContextProvider>
+  
+          <Navbar />
+  
+          <Routes>
+  
+            <Route path="/" element={<ItemListContainer />} />
+            
+            <Route path="/category/:categoryName" element={<ItemListContainer />} />
+  
+            <Route path="/itemDetail/:id" element={ <ItemDetailContainer /> } />
+  
+            <Route path="/checkout" element={ <Form /> } />
+  
+            <Route path="/cart" element={ <Cart /> } />
+  
+              <Route path="*" element={ <h2>Lo siento esta url no existe</h2> } />
+  
+          </Routes>
+  
+        </CartContextProvider>
+      </BrowserRouter>
+  
+    );
+    
+  }
+  //  <Route path="/formik" element={ <FormikFormulario /> } />
+  export default App;
+ 
