@@ -2,83 +2,85 @@ import { useState, useEffect } from "react"
 
 import "./ItemListContainer.css"
 
-import { products } from "../../productsMock"
-
 import ItemList from "../itemList/ItemList"
-import ItemCount from "../itemCount/ItemCount"
 
-import {useParams} from "react-router-dom"
-//import { useEffect } from "react"
+import { useParams } from "react-router-dom"
+import DotLoader from "react-spinners/DotLoader"
+
+import { getDocs, collection, query, where } from "firebase/firestore"
+import { db } from "../../firebaseConfig"
+
+const override = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "red",
+}
+
 const ItemListContainer = () => {
-  // FLAG o BANDERA
-//const parametros = useParams()
-const { categoryName } = useParams()
-
-console.log(categoryName)
+  const { categoryName } = useParams()
 
   const [items, setItems] = useState([])
-  const [posts, setPosts] = useState([])
-  const [isCreated, setIsCreated] = useState(false)
-  const [error, setError] = useState(null)
-  const createPost = ()=>{
-    fetch("https://jsonplaceholder.typicode.com/posts",{
-      method:"POST",
-      body:JSON.strigify({
-      userId:2,
-      title:"nuevo",
-      body:"aca descripcion"
-      }),
-      headers:{
-        "Content-type":"application/json",
-      }
-      
-      })
-.then (()=>setIsCreated(true))
+  const [isLoading, setIsLoading] = useState(false)
 
-
-    }
   useEffect(() => {
+    setIsLoading(true)
 
-    const productosFiltered = products.filter( productos =>productos.category === categoryName)
+    const itemCollection = collection(db, "products")
 
-    const task = new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve( categoryName ? productosFiltered : products  )
-     }, 200)
-    })
+    if (categoryName) {
+      const q = query(itemCollection, where("category", "==", categoryName))
+      getDocs(q)
+        .then((res) => {
+          const products = res.docs.map((product) => {
+            return {
+              ...product.data(),
+              id: product.id,
+            }
+          })
 
-    task
-      .then((res) => {
-        setItems(res)
-      })
-      .catch((err) => {
-        console.log("se rechazo")
-      })
+          setItems(products)
+        })
+        .catch((err) => console.log(err))
+    } else {
+      getDocs(itemCollection)
+     .then((res) => console.log(res))
+     
 
-    console.log("se hizo la peticion")
-  }, [categoryName ])
+        .then((res) => {
+          const products = res.docs.map((product) => {
+            return {
+              ...product.data(),
+              id: product.id,
+            }
+          })
 
-  useEffect(()=>{
-   const getPost = fetch("https://jsonplaceholder.typicode.com/posts") 
+          setItems(products)
+        })
+        .catch((err) => console.log(err))
+    }
 
-getPost
-.then ( (res)=>res.json())
-.then(  (res)=> setPosts(res))
-.catch(err=>setError(err))
-
-  },[])
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 1000)
+  }, [categoryName])
 
   return (
     <div className="light">
-      <ItemCount initial={1} stock={7}/>
-      <ItemList items={items} />
-      <button onClick= {createPost}> Crear</button>
-      <button  onClick={createPost} >Crear</button>
+      {isLoading ? (
+        <DotLoader
+          color={"purple"}
+          cssOverride={override}
+          size={100}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+      ) : (
+        <ItemList items={items} />
+      )}
 
+      {/* <ItemList items={items} /> */}
     </div>
   )
 }
-
+console.log(db)
 export default ItemListContainer
-    /* <button onClick= {createPost}> Crear</button>
-   //   <button  onClick={} >Crear</button>*/

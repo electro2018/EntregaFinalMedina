@@ -6,7 +6,7 @@ export const products = [
         name: "resistencias",
         price: 20500,
         stock: 5,
-        description: "tipos de resistencias",
+        description: "potenciometros y valores fijos ",
         category: "analogos",
         img: "https://res.cloudinary.com/dwwtypwob/image/upload/v1670986394/como-funciona-una-resistencia-electrica-3_lqqemh.png"
     },
@@ -15,7 +15,7 @@ export const products = [
         name: "condensadores",
         price: 20500,
         stock: 5,
-        description: "tipo de condensadores",
+        description: "ceramicos y electroliticos",
         category: "analogos",
         img: "https://res.cloudinary.com/dwwtypwob/image/upload/v1670986726/condensadores_u1pdzq.jpg"
     },
@@ -24,7 +24,7 @@ export const products = [
         name: "circuitos integrados",
         price: 17800,
         stock: 5,
-        description: "Circuitos integrados",
+        description: "chip para cada funcion digital",
         category: "digitales",
         img: "https://res.cloudinary.com/dwwtypwob/image/upload/v1670988048/circuitos-integrados_t2ccch.png"
     },
@@ -34,7 +34,7 @@ export const products = [
         name: "rasberry pi pico",
         price: 20500,
         stock: 5,
-        description: "Rasberry pi pico",
+        description: "controlador programable",
         category: "digitales",
         img: "https://res.cloudinary.com/dwwtypwob/image/upload/v1670987208/pico-top_zshhmy.jpg"
     },
