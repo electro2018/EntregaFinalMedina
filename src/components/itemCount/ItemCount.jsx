@@ -1,8 +1,14 @@
+import { Button } from "@mui/material"
+import { useEffect } from "react"
 import { useState } from "react"
+import "./ItemCount.css"
 
-const ItemCount = ({ stock =5, initial = 1, onAdd}) => {
-//const Counter = ({ stock, initial }) => {
+const ItemCount = ({ stock, initial = 0, onAdd }) => {
   const [counter, setCounter] = useState(initial)
+
+  useEffect(() => {
+    setCounter(initial)
+  }, [initial])
 
   const increment = () => {
     if (counter < stock) {
@@ -11,27 +17,27 @@ const ItemCount = ({ stock =5, initial = 1, onAdd}) => {
   }
 
   const decrement = () => {
-    if (counter > initial) {
+    if (counter > 1) {
       setCounter(counter - 1)
     }
   }
- //console.log(counter)
- // const onAdd = ( quantity ) => {
- //   console.log("la cantidad es: ", quantity)
-  //}
 
   return (
-    <div>
-      <h2>{counter}</h2>
-
-      <button onClick={increment}>+</button>
-      <button onClick={decrement}>-</button>
-      <button onClick={() => onAdd(counter)}>agregar al carrito</button>
+    <div className="container-btn">
+      <h2>Cantidad: {counter}</h2>
+      <div className="btns">
+        <Button variant="outlined" onClick={increment}>
+          +
+        </Button>
+        <Button variant="contained" onClick={() => onAdd(counter)}>
+          agregar al carrito
+        </Button>
+        <Button variant="outlined" onClick={decrement}>
+          -
+        </Button>
+      </div>
     </div>
   )
 }
 
 export default ItemCount
-
-// condicion ? "aca lo true" : null
-// condicion && "aca lo true"

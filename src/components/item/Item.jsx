@@ -9,7 +9,7 @@ const Item = ({element}) => {
       <h2>{element.name}</h2>
       <img src={element.img} alt="" />
       <h3>${element.price}</h3>
-      <Link to={`ItemDetail/${element.id}`}>Ver detalle</Link>
+      <Link to={`/itemDetail/${element.id}`}>Ver detalle</Link>
     </div>
   );
 };
